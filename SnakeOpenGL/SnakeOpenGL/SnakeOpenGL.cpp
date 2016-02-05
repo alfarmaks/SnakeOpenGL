@@ -31,15 +31,17 @@ public:
 	}
 } apple;
 
+//Parts of snake
 struct Point
 {
 	int x;
 	int y;
-} snake[100];
+} snake[600];
 
+//Draw field
 void DrawField(){
 	
-	glColor3f(0.0, 1.0, 0.0);
+	glColor3f(0.0, 0.7, 0.0);
 	glBegin(GL_LINES);
 
 	for (int i = 0; i < width; i += Scale){
@@ -53,6 +55,7 @@ void DrawField(){
 	glEnd();
 }
 
+//Change position of snake in every tick. Ñheck if snake eats an apple or itself. 
 void Tick(){
 	for (int i = num; i > 0; --i){
 		snake[i].x = snake[i - 1].x;
@@ -83,6 +86,7 @@ void Tick(){
 	}
 }
 
+//draw all parts of snake
 void DrawSnake(){
 	glColor3f(0.0, 0.0, 1.0);
 	for (int i = 0; i < num; i++){
@@ -90,6 +94,7 @@ void DrawSnake(){
 	}
 }
 
+//catch which key was press by user
 void handleKey(int key, int a, int b){
 	switch (key)
 	{
@@ -113,15 +118,22 @@ void handleKey(int key, int a, int b){
 			break;
 	}
 }
+
+//Draw apples, Field and snake
 void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
+	
 	apple.DrawApple();
 	DrawField();
 	DrawSnake();
+	
 	glFlush();
+	
+	glutSwapBuffers();
 }
 
+//timer which change information on display(calls function display and Tick)
 void timer(int = 0){
 	display();
 	Tick();
@@ -142,7 +154,7 @@ int main(int argc, char **argv)
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 	glutInitWindowSize(width, height);
 	glutCreateWindow("Snake");
-	glClearColor(1.0, 1.0, 0.6, 1.0);
+	glClearColor(1.0, 1.0, 0.6, 1.0);//set bachground's color 
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluOrtho2D(0, width, 0, height);
