@@ -71,6 +71,16 @@ void Tick(){
 	else if (dir == Direction::RIGHT){
 		snake[0].x += 1;
 	}
+
+	if (apple.x == snake[0].x && apple.y == snake[0].y){
+		num++;
+		apple.New();
+	}
+	for (int i = 1; i < num; i++){
+		if (snake[i].x == snake[0].x && snake[i].y == snake[0].y){
+			num = i;
+		}
+	}
 }
 
 void DrawSnake(){
@@ -83,10 +93,22 @@ void DrawSnake(){
 void handleKey(int key, int a, int b){
 	switch (key)
 	{
-		case 100: dir = Direction::LEFT; break;
-		case 103: dir = Direction::UP; break;
-		case 102: dir = Direction::RIGHT; break;
-		case 101: dir = Direction::DOWN; break;
+		case 100: 
+			if (dir != Direction::RIGHT)
+				dir = Direction::LEFT; 
+			break;
+		case 103: 
+			if (dir != Direction::DOWN)
+				dir = Direction::UP; 
+			break;
+		case 102: 
+			if (dir != Direction::LEFT)
+				dir = Direction::RIGHT; 
+			break;
+		case 101: 
+			if (dir != Direction::UP)
+				dir = Direction::DOWN; 
+			break;
 		default:
 			break;
 	}
@@ -120,6 +142,7 @@ int main(int argc, char **argv)
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
 	glutInitWindowSize(width, height);
 	glutCreateWindow("Snake");
+	glClearColor(1.0, 1.0, 0.6, 1.0);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	gluOrtho2D(0, width, 0, height);
