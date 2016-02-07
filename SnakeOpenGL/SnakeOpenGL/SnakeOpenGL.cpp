@@ -3,9 +3,9 @@
 
 #include "stdafx.h"
 #include "Direction.h"
-#include <random>
+#include "Apple.h"
+#include <vector>
 #include <time.h>
-#include <GL\glut.h>
 #define N 30
 #define M 20
 #define Scale 25
@@ -15,21 +15,7 @@
 
 Direction dir = Direction::RIGHT;
 int num = 2;
-
-class Apple
-{
-public:
-	int x, y;
-
-	void New(){
-		x = std::rand() % N;
-		y = std::rand() % M;
-	}
-	void DrawApple(){
-		glColor3f(1.0, 0.0, 0.0);
-		glRectf(x * Scale + 1, y * Scale + 1, (x + 1) * Scale - 1, (y + 1) * Scale - 1);
-	}
-} apple;
+Apple *apple = new Apple();
 
 //Parts of snake
 struct Point
@@ -75,9 +61,9 @@ void Tick(){
 		snake[0].x += 1;
 	}
 
-	if (apple.x == snake[0].x && apple.y == snake[0].y){
+	if (apple->getX() == snake[0].x && apple->getY() == snake[0].y){
 		num++;
-		apple.New();
+		apple->New();
 	}
 	for (int i = 1; i < num; i++){
 		if (snake[i].x == snake[0].x && snake[i].y == snake[0].y){
@@ -136,7 +122,7 @@ void display()
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	
-	apple.DrawApple();
+	apple->DrawApple();
 	DrawField();
 	DrawSnake();
 	
@@ -156,8 +142,7 @@ void timer(int = 0){
 int main(int argc, char **argv)
 {
 	srand((unsigned)time(NULL));//randomize random
-	
-	apple.New();
+	apple->New();
 	snake[0].x = 10;
 	snake[0].y = 10;
 	snake[1].x = 9;
