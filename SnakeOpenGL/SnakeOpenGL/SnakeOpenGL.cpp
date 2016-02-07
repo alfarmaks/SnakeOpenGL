@@ -84,6 +84,18 @@ void Tick(){
 			num = i;
 		}
 	}
+	if (snake[0].x >= N){
+		snake[0].x = 0;
+	}
+	if (snake[0].x < 0){
+		snake[0].x = N - 1;
+	}
+	if (snake[0].y < 0){
+		snake[0].y = M - 1;
+	}
+	if (snake[0].y >= M){
+		snake[0].y = 0;
+	}
 }
 
 //draw all parts of snake
